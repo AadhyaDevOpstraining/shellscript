@@ -1,0 +1,16 @@
+#!/bin/bash
+# Deploy a simple application
+
+REPO_URL="https://github.com/user/repo.git"
+DEPLOY_DIR="/path/to/deploy"
+
+if [ ! -d "$DEPLOY_DIR" ]; then
+  git clone "$REPO_URL" "$DEPLOY_DIR"
+else
+  cd "$DEPLOY_DIR"
+  git pull
+fi
+
+# Restart the application service
+systemctl restart myapp
+echo "Application deployed successfully!"

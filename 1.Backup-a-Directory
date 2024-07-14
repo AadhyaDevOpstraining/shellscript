@@ -1,0 +1,9 @@
+#!/bin/bash
+# Backup a directory
+
+SOURCE_DIR="/path/to/source"
+BACKUP_DIR="/path/to/backup/$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$BACKUP_DIR"
+cp -r "$SOURCE_DIR" "$BACKUP_DIR"
+
+echo "Backup of $SOURCE_DIR completed to $BACKUP_DIR"

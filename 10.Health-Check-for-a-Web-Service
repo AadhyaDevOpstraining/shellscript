@@ -1,0 +1,11 @@
+#!/bin/bash
+# Simple health check for a web service
+
+URL="http://localhost:8080/health"
+HTTP_RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" "$URL")
+
+if [ "$HTTP_RESPONSE" -ne 200 ]; then
+  echo "Service is down! HTTP status: $HTTP_RESPONSE"
+else
+  echo "Service is healthy."
+fi

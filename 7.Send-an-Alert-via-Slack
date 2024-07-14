@@ -1,0 +1,9 @@
+#!/bin/bash
+# Send a message to Slack
+
+WEBHOOK_URL="https://hooks.slack.com/services/your/webhook/url"
+MESSAGE="Hello from your DevOps script!"
+
+curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" "$WEBHOOK_URL"
+
+echo "Message sent to Slack!"
