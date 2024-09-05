@@ -1,16 +1,24 @@
 #!/bin/bash
-# Deploy a simple application
 
-REPO_URL="https://github.com/user/repo.git"
-DEPLOY_DIR="/path/to/deploy"
+# Threshold percentage for disk usage
+THRESHOLD=80
 
-if [ ! -d "$DEPLOY_DIR" ]; then
-  git clone "$REPO_URL" "$DEPLOY_DIR"
-else
-  cd "$DEPLOY_DIR"
-  git pull
-fi
+# Directory to check (optional: you can specify a particular directory or leave it empty to check all mounted filesystems)
+DIRECTORY="/"
 
-# Restart the application service
-systemctl restart myapp
-echo "Application deployed successfully!"
+# Function to check disk usage
+check_disk_usage() {
+  local usage
+  usage=$(df -h "$DIRECTORY" | awk 'NR==2 {print $5}' | sed 's/%//')
+  
+  if [ "$usage" -ge "$THRESHOLD" ]; then
+    echo "Warning: Disk usage on $DIRECTORY is above threshold ($usage%)"
+    # You can add actions here, like sending an email or alert, e.g.:
+    # echo "Disk usage is ${usage}% on ${DIRECTORY}" | mail -s "Disk Usage Alert" you@example.com
+  else
+    echo "Disk usage on $DIRECTORY is within acceptable limits ($usage%)"
+  fi
+}
+
+# Run the function
+check_disk_usage
